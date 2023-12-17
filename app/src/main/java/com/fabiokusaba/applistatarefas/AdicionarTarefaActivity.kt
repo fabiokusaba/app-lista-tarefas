@@ -3,9 +3,9 @@ package com.fabiokusaba.applistatarefas
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.fabiokusaba.applistatarefas.database.TarefaDAO
 import com.fabiokusaba.applistatarefas.databinding.ActivityAdicionarTarefaBinding
 import com.fabiokusaba.applistatarefas.model.Tarefa
+import com.fabiokusaba.applistatarefas.database.TarefaDAO
 
 class AdicionarTarefaActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -24,7 +24,7 @@ class AdicionarTarefaActivity : AppCompatActivity() {
                     -1,
                     descricao,
                     "default"
-                    )
+                )
 
                 val tarefaDAO = TarefaDAO(this)
                 if (tarefaDAO.salvar(tarefa)){

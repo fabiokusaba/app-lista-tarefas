@@ -2,8 +2,9 @@ package com.fabiokusaba.applistatarefas
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.fabiokusaba.applistatarefas.adapter.TarefaAdapter
 import com.fabiokusaba.applistatarefas.database.TarefaDAO
 import com.fabiokusaba.applistatarefas.databinding.ActivityMainBinding
 import com.fabiokusaba.applistatarefas.model.Tarefa
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var listaTarefas = emptyList<Tarefa>()
+    private var tarefaAdapter: TarefaAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,16 +26,22 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+
+        //Recyclerview
+        tarefaAdapter = TarefaAdapter()
+        binding.rvTarefas.adapter = tarefaAdapter
+
+        binding.rvTarefas.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun atualizarListaTarefas() {
+        val tarefaDAO = TarefaDAO(this)
+        listaTarefas = tarefaDAO.listar()
+        tarefaAdapter?.adicionarLista(listaTarefas)
     }
 
     override fun onStart() {
         super.onStart()
-
-        val tarefaDAO = TarefaDAO(this)
-        listaTarefas = tarefaDAO.listar()
-
-        listaTarefas.forEach { tarefa ->
-            Log.i("info_db", "${tarefa.descricao}\n")
-        }
+        atualizarListaTarefas()
     }
 }
